@@ -1,0 +1,610 @@
+/*
+    switch( toupper(tecla) ) {
+    case 'Q' :
+        if (modoMenu!=NADA) {
+        modoMenu=NADA;            
+        } else {
+        salir=true ;
+        }
+        break ;
+
+    // Modo de selección de objeto
+    case 'O' :
+        modoMenu=SELOBJETO; 
+        break ; 
+
+        // Objetos
+        case 'C' :  // Cubo
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(cubo);
+            if (it == figuras.end()) {
+                figuras.insert(cubo);
+            } else {
+                figuras.erase(cubo);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'T' :  // Tetraedro
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(tetraedro);
+            if (it == figuras.end()) {
+                figuras.insert(tetraedro);
+            } else {
+                figuras.erase(tetraedro);
+            }
+        } else if (modoMenu == SELVISUALIZACION) {
+            for (Malla3D * figura : figuras) {
+                figura -> sin_tapas = !figura -> sin_tapas;
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+
+        case 'E' : // Esfera
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(esfera);
+            if (it == figuras.end()) {
+                figuras.insert(esfera);
+            } else {
+                figuras.erase(esfera);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'N' : // Cono
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(cono);
+            if (it == figuras.end()) {
+                figuras.insert(cono);
+            } else {
+                figuras.erase(cono);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'R' : // Cilindro
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(cilindro);
+            if (it == figuras.end()) {
+                figuras.insert(cilindro);
+            } else {
+                figuras.erase(cilindro);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'J' : // ObjRevolucionPLY
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(objRev);
+            if (it == figuras.end()) {
+                figuras.insert(objRev);
+            } else {
+                figuras.erase(objRev);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'Y' : // ObjPLY
+        if (modoMenu == SELOBJETO) {
+            set<Malla3D*>::iterator it;
+            it = figuras.find(ply);
+            if (it == figuras.end()) {
+                figuras.insert(ply);
+            } else {
+                figuras.erase(ply);
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+
+    // Modo de selección de visualización
+    case 'V' :
+        modoMenu=SELVISUALIZACION;
+        break ;
+
+        // Modos de visualización
+        case 'P' :  // Puntos
+        if (modoMenu == SELVISUALIZACION) {
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_POINT);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_POINT);
+            } else {
+                modosVis.erase(GL_POINT);
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+        
+        case 'L' :  // Líneas
+        if (modoMenu == SELVISUALIZACION) {
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_LINE);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_LINE);
+            } else {
+                modosVis.erase(GL_LINE);
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'S' :  // Sólido
+        if (modoMenu == SELVISUALIZACION) {
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_FILL);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = false;
+            } else {
+                if (!ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = false;
+                }
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'A' :  // Ajedrez
+        if (modoMenu == SELVISUALIZACION) {
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_FILL);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = true;
+            } else {
+                if (ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = true;
+                }
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'I' : // Iluminación
+        if (modoMenu == SELVISUALIZACION) {
+            if (iluminacion == GL_SMOOTH) {
+                iluminacion = GL_FLAT;
+                //luces_activadas = false;
+                for (Luz * i : luces) {
+                    i -> desactivar();
+                }
+            } else {
+                iluminacion = GL_SMOOTH;
+                /*luces_activadas = true;
+                for (Luz * i : luces) {
+                    i -> activar();
+                }
+            }
+        } 
+        break;
+
+    // Modo de selección de dibujado
+    case 'D' :
+        modoMenu=SELDIBUJADO;
+        break ;
+
+        case '0': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[0] -> getEncendida()) {
+                luces[0] -> activar();
+            } else {
+                luces[0] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+
+        case '1' :  // Inmediato | Luz 1
+        if (modoMenu == SELDIBUJADO) {
+            modo_dibujado = 1;
+            dibujar();
+        } else if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[1] -> getEncendida()) {
+                luces[1] -> activar();
+            } else {
+                luces[1] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        } 
+        break;
+        
+        case '2' :  // Diferido
+        if (modoMenu == SELDIBUJADO) {
+            modo_dibujado = 2;
+            dibujar();
+        } else if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[2] -> getEncendida()) {
+                luces[2] -> activar();
+            } else {
+                luces[2] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        } 
+        break;
+
+        case '3': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[3] -> getEncendida()) {
+                luces[3] -> activar();
+            } else {
+                luces[3] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+    
+        case '4': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[4] -> getEncendida()) {
+                luces[4] -> activar();
+            } else {
+                luces[4] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+
+        case '5': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[5] -> getEncendida()) {
+                luces[5] -> activar();
+            } else {
+                luces[5] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+
+        case '6': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[6] -> getEncendida()) {
+                luces[6] -> activar();
+            } else {
+                luces[6] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+
+        case '7': // Luz 0
+        if (modoMenu == SELVISUALIZACION && luces_activadas) {
+            if (!luces[7] -> getEncendida()) {
+                luces[7] -> activar();
+            } else {
+                luces[7] -> desactivar();
+            }
+        } else {
+            std::cout << "Opción inválida" << endl;  
+        }
+        break;
+
+    default:
+    std::cout << "Opción inválida" << endl;
+    break;
+
+   }
+
+    /*switch(modoMenu) {
+        case NADA :
+        switch (toupper(tecla)) {
+            case 'Q' :
+            salir = true;
+            break;
+            
+            case 'O' :
+            modoMenu = SELOBJETO;
+            break;
+
+            case 'V' :
+            modoMenu = SELVISUALIZACION;
+            break;
+
+            case 'D' :
+            modoMenu = SELDIBUJADO;
+            break;
+            
+            default :
+            std::cout << "Opción inválida" << std::endl;
+            break;
+        }
+        break;
+
+        case SELOBJETO :
+        set<Malla3D *>::iterator ito; 
+        switch (toupper(tecla)) {
+            case 'C' :  // Cubo
+            ito = figuras.find(cubo);
+            if (ito == figuras.end()) {
+                figuras.insert(cubo);
+            } else {
+                figuras.erase(cubo);
+            }
+            break;
+
+            case 'T' :  // Tetraedro
+            ito = figuras.find(tetraedro);
+            if (ito == figuras.end()) {
+                figuras.insert(tetraedro);
+            } else {
+                figuras.erase(tetraedro);
+            }
+            break;
+
+            case 'E' : // Esfera
+            ito = figuras.find(esfera);
+            if (ito == figuras.end()) {
+                figuras.insert(esfera);
+            } else {
+                figuras.erase(esfera);
+            }
+            break;
+
+            case 'N' : // Cono
+            ito = figuras.find(cono);
+            if (ito == figuras.end()) {
+                figuras.insert(cono);
+            } else {
+                figuras.erase(cono);
+            }
+            break;
+
+            case 'D' : // Cilindro
+            ito = figuras.find(cilindro);
+            if (ito == figuras.end()) {
+                figuras.insert(cilindro);
+            } else {
+                figuras.erase(cilindro);
+            }
+            break;
+
+            case 'R' : // ObjRevolucionPLY
+            ito = figuras.find(objRev);
+            if (ito == figuras.end()) {
+                figuras.insert(objRev);
+            } else {
+                figuras.erase(objRev);
+            }
+            break;
+
+            case 'Y' : // ObjPLY
+            ito = figuras.find(ply);
+            if (ito == figuras.end()) {
+                figuras.insert(ply);
+            } else {
+                figuras.erase(ply);
+            }
+            break;
+
+            case 'Q' :
+            modoMenu = NADA;
+            break;
+
+            default:
+            std::cout << "Opción inválida" << std::endl;
+            break;
+        }
+        break;
+
+        case SELVISUALIZACION:
+        switch(toupper(tecla)) {
+            set<GLuint>::iterator itv;
+            case 'P' :  // Puntos
+            itv = modosVis.find(GL_POINT);
+            if (itv == modosVis.end()) {
+                modosVis.insert(GL_POINT);
+            } else {
+                modosVis.erase(GL_POINT);
+            }
+            dibujar();
+            break;
+            
+            case 'L' :  // Líneas
+            itv = modosVis.find(GL_LINE);
+            if (itv == modosVis.end()) {
+                modosVis.insert(GL_LINE);
+            } else {
+                modosVis.erase(GL_LINE);
+            }
+            dibujar();
+            break;
+
+            case 'S' :  // Sólido
+            itv = modosVis.find(GL_FILL);
+            if (itv == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = false;
+            } else {
+                if (!ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = false;
+                }
+            }
+            dibujar();
+            break;
+
+            case 'A' :  // Ajedrez
+            itv = modosVis.find(GL_FILL);
+            if (itv == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = true;
+            } else {
+                if (ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = true;
+                }
+            }
+            dibujar();
+            break;
+
+            case 'Q' :
+            modoMenu = NADA;
+            break;
+
+            default:
+            std::cout << "Opción inválida" << std::endl;
+            break;
+        }
+        break;
+
+        case SELDIBUJADO:
+        switch(toupper(tecla)) {
+            case '1' :  // Inmediato
+            modo_dibujado = 1;
+            dibujar();
+            break;
+            
+            case '2' :  // Diferido
+            modo_dibujado = 2;
+            dibujar();
+            break;
+
+            case '3' : // Tapas
+            for (Malla3D * figura : figuras) {
+                figura -> sin_tapas = !figura -> sin_tapas;
+            }
+            dibujar();
+            break;
+
+            case 'Q' :
+            modoMenu = NADA;
+            break;
+
+            default:
+            std::cout << "Opción inválida" << std::endl;
+            break;
+        }
+        break;
+    }*/
+
+
+    /*      
+        case 'P' :  // Puntos
+            luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+        break;
+        
+        case 'L' :  // Líneas
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_LINE);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_LINE);
+            } else {
+                modosVis.erase(GL_LINE);
+            }
+            dibujar();
+        break;
+
+        case 'S' :  // Sólido
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_FILL);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = false;
+            } else {
+                if (!ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = false;
+                }
+            }
+            dibujar();
+        break;
+
+        case 'A' :  // Ajedrez
+        if (modoMenu == SELVISUALIZACION) {
+            //luces_activadas = false;
+            iluminacion = GL_FLAT;
+            set<GLuint>::iterator it;
+            it = modosVis.find(GL_FILL);
+            if (it == modosVis.end()) {
+                modosVis.insert(GL_FILL);
+                ajedrez = true;
+            } else {
+                if (ajedrez) {
+                    modosVis.erase(GL_FILL);
+                } else {
+                    ajedrez = true;
+                }
+            }
+            dibujar();
+        } else {
+            std::cout << "Opción inválida" << endl;
+        }
+        break;
+
+        case 'I' : // Iluminación
+        if (modoMenu == SELVISUALIZACION) {
+            if (iluminacion == GL_SMOOTH) {
+                iluminacion = GL_FLAT;
+                //luces_activadas = false;
+                for (Luz * i : luces) {
+                    i -> desactivar();
+                }
+            } else {
+                iluminacion = GL_SMOOTH;
+                /*luces_activadas = true;
+                for (Luz * i : luces) {
+                    i -> activar();
+                }
+            }
+        } 
+        break;
+
+*/
